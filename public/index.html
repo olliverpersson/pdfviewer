@@ -1,0 +1,227 @@
+<DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <title> PDF Viewer </title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/svg" href="icons/file-pdf-box.svg"/>
+        <link rel=”mask-icon” href="icons/file-pdf-box.svg" color=”#000000">
+
+        <style>
+
+            * {
+
+                box-sizing: border-box;
+                font-family: 'Roboto', sans-serif;
+
+            }
+
+            body {
+
+                background: #f8f8f8;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+            }
+
+            #the-canvas {
+                box-shadow: 0px 0px 12px rgba(0,0,0,0.1);
+                direction: ltr;
+                border-radius: 10px; 
+                animation-duration: 0.4s;
+                display: none;
+            }
+
+            nav button, a {
+
+                width: 42px;
+                height: 42px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 21px;
+                background: white;
+                border: none;
+                cursor: pointer;
+                background: #fff;
+                text-transform: uppercase;
+                box-shadow: 2px 2px 6px rgba(0,0,0,0.08);
+                transition: 0.2s;
+
+            }
+
+            nav button:hover, a:hover {
+
+                box-shadow: 2px 2px 12px rgba(0,0,0,0.15);
+
+            }
+
+            nav {
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                gap: 20px;
+
+            }
+
+            @keyframes flip {
+
+                0% {
+                    transform: rotate3d(0, 1, 0, 0deg);
+                }
+
+
+                100% {
+                    transform: rotate3d(0, 1, 0, 180deg) scale(-1, 1);
+                }
+
+            }
+
+            /*@keyframes flip {
+
+                0% {
+
+                    opacity: 1;
+
+                }
+
+                50% {
+
+                    opacity: 0;
+
+                }
+
+                100% {
+
+                    opacity: 1;
+
+                }
+
+            }*/
+
+
+            .content button {
+
+                display: block;
+                background: transparent;
+                padding: 8px 18px;
+                border: none;
+                border-radius: 10px;
+                transition: 0.4s;
+                cursor: pointer;
+
+            }
+
+            .content button:hover {
+
+                background: white;
+                box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.08);
+
+            }
+
+            #fullscreen-nav-left, #fullscreen-nav-right {
+
+                position: fixed;
+                display: none;
+                top: 0px;
+                width: 50vw;
+                height: 100vh;
+
+            }
+
+            #fullscreen-nav-left {
+
+                left: 0px;
+
+            }
+
+            #fullscreen-nav-right {
+
+                left: 50vw;
+
+            }
+
+            #canvas-container {
+
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+
+            }
+
+            #canvas-container:fullscreen {
+
+                background: #333333;
+                width: 100vw;
+                height: 100vh;
+
+            }
+
+            #canvas-container:fullscreen #fullscreen-nav-left, #canvas-container:fullscreen #fullscreen-nav-right {
+
+                display: block;
+
+            }
+
+        </style>
+
+    </head>
+
+    <body>         
+
+        <div id="canvas-container">
+        
+            <canvas id="the-canvas"></canvas>
+
+            <input type="file" id="fileinput" />
+
+            <div id="fullscreen-nav">
+
+                <div id="fullscreen-nav-left" onClick="onPrevPage()"></div>
+                <div id="fullscreen-nav-right" onClick="onNextPage()"></div>
+
+            </div>
+
+            <span onClick="userPickPage()"><span id="page_num"></span> / <span id="page_count"></span></span>
+
+        </div>
+
+        <nav>
+            
+            <button id="prev" title="Previous page" onClick="onPrevPage()"> <img src="icons/arrow-left-circle.svg" /> </button>
+            <button id="next" title="Next page" onClick="onNextPage()"> <img src="icons/arrow-left-circle.svg" style="transform: rotate(180deg)"/> </button>
+            <a target='_blank' download href="./KARM-2019.pdf" title="Download pdf" id="button-download" style="display: none"> <img src="icons/download.svg" /> </a>
+            <button onClick="activateFullscreen()" title="Focus mode" id="button-activate-fullscreen"> <img src="icons/maximize.svg"/> </button>
+
+            <button onClick="changeScale(-0.05)" title="Decrease scale"> <img src="icons/zoom-out.svg"/> </button>
+            <button onClick="changeScale(0.05)" title="Increase scale"> <img src="icons/zoom-in.svg"/> </button>
+
+            <button onClick="setBrightnessFull()" title="Brightness on" id="button-brightness-full" style="display: none"> <img src="icons/lightbulb-off-outline.svg"/> </button>
+            <button onClick="setBrightnessLow()" title="Brightness off" id="button-brightness-low"> <img src="icons/lightbulb-on-outline.svg"/> </button>
+
+        </nav>
+
+        <!--div class="content">
+
+            <button onClick="goToPage(5)">Table of Content &nbsp; &nbsp; 4</button>
+            <button onClick="goToPage(5)">Tips &nbsp; &nbsp; 5</button>
+            <button onClick="goToPage(5)">Schedule &nbsp; &nbsp; 6</button>
+
+        </div-->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+        <script src="./main.js"></script>
+
+    </body>
+
+</html>
+
+</DOCTYPE>
